@@ -58,7 +58,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -5, 3 ) ]
+"values": [ Vector2( -2, 2 ) ]
 }
 
 [sub_resource type="Animation" id=33]
@@ -87,7 +87,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -5, 6 ) ]
+"values": [ Vector2( -2, 5 ) ]
 }
 
 [sub_resource type="Animation" id=34]
@@ -115,7 +115,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -5, 3 ) ]
+"values": [ Vector2( -2, 3 ) ]
 }
 
 [sub_resource type="Animation" id=35]
@@ -141,18 +141,16 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -5, 6 ), Vector2( -5, 6 ) ]
+"values": [ Vector2( -2, 5 ) ]
 }
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 206, 215 )
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -3, 1 )
 texture = ExtResource( 2 )
 hframes = 4
 vframes = 6
