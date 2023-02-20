@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://Prefabs/Door.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Art/floor1.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Prefabs/BreakingPlatform.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Art/hiddenarea.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/HiddenAreaTileMap.gd" type="Script" id=10]
+[ext_resource path="res://Scripts/Spring.gd" type="Script" id=11]
+[ext_resource path="res://Assets/Art/spring.png" type="Texture" id=12]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -928,10 +930,59 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
+[sub_resource type="RectangleShape2D" id=54]
+extents = Vector2( 8, 3 )
+
+[sub_resource type="Animation" id=55]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=56]
+resource_name = "active"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=57]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
 [node name="Level 1" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-z_index = 1
+position = Vector2( 200, 271 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 31 )
@@ -975,32 +1026,34 @@ position = Vector2( -72, 448 )
 [node name="Coin5" parent="Coins" instance=ExtResource( 7 )]
 position = Vector2( -32, 128 )
 
-[node name="HiddenAreaStatic" type="Area2D" parent="."]
+[node name="HiddenAreas" type="Node" parent="."]
+
+[node name="HiddenAreaStatic" type="Area2D" parent="HiddenAreas"]
 visible = false
 position = Vector2( -88, 368 )
 script = ExtResource( 5 )
 
-[node name="Sprite" type="Sprite" parent="HiddenAreaStatic"]
+[node name="Sprite" type="Sprite" parent="HiddenAreas/HiddenAreaStatic"]
 visible = false
 position = Vector2( 224, -112 )
 z_index = 2
 texture = ExtResource( 9 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreaStatic"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreas/HiddenAreaStatic"]
 position = Vector2( 224, -112 )
 shape = SubResource( 32 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreaStatic"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreas/HiddenAreaStatic"]
 autoplay = "hidden"
 anims/RESET = SubResource( 33 )
 anims/hidden = SubResource( 34 )
 anims/revealed = SubResource( 35 )
 anims/revealing = SubResource( 36 )
 
-[node name="HiddenAreaTileMap" type="Area2D" parent="."]
+[node name="HiddenAreaTileMap" type="Area2D" parent="HiddenAreas"]
 script = ExtResource( 10 )
 
-[node name="TileMap2" type="TileMap" parent="HiddenAreaTileMap"]
+[node name="TileMap2" type="TileMap" parent="HiddenAreas/HiddenAreaTileMap"]
 z_index = 2
 tile_set = SubResource( 31 )
 cell_size = Vector2( 16, 16 )
@@ -1009,15 +1062,15 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 1245206, 0, 65537, 1245207, 0, 65537, 1245208, 0, 65537, 1245209, 0, 65537, 1245210, 0, 65537, 1310736, 0, 65537, 1310737, 0, 65537, 1310738, 0, 65537, 1310739, 0, 65537, 1310740, 0, 65537, 1310741, 0, 65537, 1310742, 0, 65537, 1310743, 0, 65537, 1310744, 0, 65537, 1310745, 0, 65537, 1310746, 0, 65537, 1310747, 0, 65537, 1376272, 0, 65537, 1376273, 0, 65537, 1376274, 0, 65537, 1376275, 0, 65537, 1376276, 0, 65537, 1376277, 0, 65537, 1376278, 0, 65537, 1376279, 0, 65537, 1376280, 0, 65537, 1376281, 0, 65537, 1376282, 0, 65537, 1376283, 0, 65537, 1376284, 0, 65537, 1376285, 0, 65537, 1376286, 0, 65537, 1441808, 0, 65537, 1441809, 0, 65537, 1441810, 0, 65537, 1441811, 0, 65537, 1441812, 0, 65537, 1441813, 0, 65537, 1441814, 0, 65537, 1441815, 0, 65537, 1441816, 0, 65537, 1441817, 0, 65537, 1441818, 0, 65537, 1441819, 0, 65537, 1441820, 0, 65537, 1441821, 0, 65537, 1441822, 0, 65537, 1507344, 0, 65537, 1507345, 0, 65537, 1507346, 0, 65537, 1507347, 0, 65537, 1507348, 0, 65537, 1507349, 0, 65537, 1507350, 0, 65537, 1507351, 0, 65537, 1507352, 0, 65537, 1507353, 0, 65537, 1507354, 0, 65537, 1507355, 0, 65537, 1507356, 0, 65537, 1507357, 0, 65537, 1507358, 0, 65537, 1572880, 0, 65536, 1572881, 0, 65537, 1572882, 0, 65537, 1572883, 0, 65537, 1572884, 0, 65537, 1572885, 0, 65537, 1572886, 0, 65537, 1572887, 0, 65537, 1572888, 0, 65537, 1572889, 0, 65537, 1572890, 0, 65537, 1572891, 0, 65537, 1572892, 0, 65537, 1572893, 0, 65537, 1572894, 0, 65537, 1638417, 0, 65537, 1638418, 0, 65537, 1638419, 0, 65537, 1638420, 0, 65537, 1638421, 0, 65537, 1638422, 0, 65537, 1638423, 0, 65537, 1638424, 0, 65537, 1638425, 0, 65537, 1638426, 0, 65537, 1638427, 0, 65537, 1638428, 0, 65537, 1638429, 0, 65537, 1638430, 0, 65537, 1703953, 0, 65537, 1703954, 0, 65537, 1703955, 0, 65537, 1703956, 0, 65537, 1703957, 0, 65537, 1703958, 0, 65537, 1703959, 0, 65537, 1703960, 0, 65537, 1703961, 0, 65537, 1703962, 0, 65537, 1703963, 0, 65537, 1703964, 0, 65537, 1703965, 0, 65537, 1703966, 0, 65537, 1769489, 0, 65537, 1769490, 0, 65537, 1769491, 0, 65537, 1769492, 0, 65537, 1769493, 0, 65537, 1769494, 0, 65537, 1769495, 0, 65537, 1769496, 0, 65537, 1769497, 0, 65537, 1769498, 0, 65537, 1769499, 0, 65537, 1769500, 0, 65537, 1769501, 0, 65537, 1769502, 0, 65537, 1835026, 0, 65537, 1835027, 0, 65537, 1835028, 0, 65537, 1835029, 0, 65537, 1835030, 0, 65537, 1835031, 0, 65537, 1835032, 0, 65537, 1835033, 0, 65537, 1835034, 0, 65537, 1835035, 0, 65537, 1835036, 0, 65537, 1835037, 0, 65537, 1900562, 0, 65537, 1900563, 0, 65537, 1900564, 0, 65537, 1900565, 0, 65537, 1900566, 0, 65537, 1900567, 0, 65537, 1900568, 0, 65537, 1900569, 0, 65537, 1900570, 0, 65537, 1900571, 0, 65537, 1966098, 0, 65537, 1966099, 0, 65537, 1966100, 0, 65537, 1966101, 0, 65537, 1966102, 0, 65537, 1966103, 0, 65537, 1966104, 0, 65537, 1966105, 0, 65537, 1966106, 0, 65537, 1966107, 0, 65537 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreaTileMap"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreas/HiddenAreaTileMap"]
 position = Vector2( 360, 344 )
 shape = SubResource( 37 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="HiddenAreaTileMap"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HiddenAreas/HiddenAreaTileMap"]
 position = Vector2( 368, 424 )
 shape = SubResource( 38 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreaTileMap"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreas/HiddenAreaTileMap"]
 root_node = NodePath("../TileMap2")
 autoplay = "hidden"
 anims/RESET = SubResource( 39 )
@@ -1025,10 +1078,10 @@ anims/hidden = SubResource( 40 )
 anims/revealed = SubResource( 41 )
 anims/revealing = SubResource( 42 )
 
-[node name="HiddenAreaTileMap2" type="Area2D" parent="."]
+[node name="HiddenAreaTileMap2" type="Area2D" parent="HiddenAreas"]
 script = ExtResource( 10 )
 
-[node name="TileMap2" type="TileMap" parent="HiddenAreaTileMap2"]
+[node name="TileMap2" type="TileMap" parent="HiddenAreas/HiddenAreaTileMap2"]
 z_index = 2
 tile_set = SubResource( 31 )
 cell_size = Vector2( 16, 16 )
@@ -1037,11 +1090,11 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 1703926, 0, 65537, 1703927, 0, 65537, 1703928, 0, 65537, 1703929, 0, 65537, 1703930, 0, 65537, 1703931, 0, 65537, 1703932, 0, 65537, 1703933, 0, 65537, 1703934, 0, 65537, 1703935, 0, 65537, 1638400, 0, 65537, 1638401, 0, 65537, 1769462, 0, 65537, 1769463, 0, 65537, 1769464, 0, 65537, 1769465, 0, 65537, 1769466, 0, 65537, 1769467, 0, 65537, 1769468, 0, 65537, 1769469, 0, 65537, 1769470, 0, 65537, 1769471, 0, 65537, 1703936, 0, 65537, 1703937, 0, 65537, 1703938, 0, 65537, 1703939, 0, 65537, 1834998, 0, 65537, 1834999, 0, 65537, 1835000, 0, 65537, 1835001, 0, 65537, 1835002, 0, 65537, 1835003, 0, 65537, 1835004, 0, 65537, 1835005, 0, 65537, 1835006, 0, 65537, 1835007, 0, 65537, 1769472, 0, 65537, 1769473, 0, 65537, 1769474, 0, 65537, 1769475, 0, 65537, 1900534, 0, 65537, 1900535, 0, 65537, 1900536, 0, 65537, 1900537, 0, 65537, 1900538, 0, 65537, 1900539, 0, 65537, 1900540, 0, 65537, 1900541, 0, 65537, 1900542, 0, 65537, 1900543, 0, 65537, 1835008, 0, 65537, 1835009, 0, 65537, 1835010, 0, 65537, 1835011, 0, 65537, 1966070, 0, 65537, 1966071, 0, 65537, 1966072, 0, 65537, 1966073, 0, 65537, 1966074, 0, 65537, 1966075, 0, 65537, 1966076, 0, 65537, 1966077, 0, 65537, 1966078, 0, 65537, 1966079, 0, 65537, 1900544, 0, 65537, 1900545, 0, 65537, 1900546, 0, 65537, 1900547, 0, 65537, 2031606, 0, 65537, 2031607, 0, 65537, 2031608, 0, 65537, 2031609, 0, 65537, 2031610, 0, 65537, 2031611, 0, 65537, 2031612, 0, 65537, 2031613, 0, 65537, 2031614, 0, 65537, 2031615, 0, 65537, 1966080, 0, 65537, 1966081, 0, 65537, 1966082, 0, 65537, 1966083, 0, 65537 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreaTileMap2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreas/HiddenAreaTileMap2"]
 position = Vector2( -36, 448 )
 shape = SubResource( 51 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreaTileMap2"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreas/HiddenAreaTileMap2"]
 root_node = NodePath("../TileMap2")
 autoplay = "hidden"
 anims/RESET = SubResource( 43 )
@@ -1049,10 +1102,10 @@ anims/hidden = SubResource( 44 )
 anims/revealed = SubResource( 45 )
 anims/revealing = SubResource( 46 )
 
-[node name="HiddenAreaTileMap3" type="Area2D" parent="."]
+[node name="HiddenAreaTileMap3" type="Area2D" parent="HiddenAreas"]
 script = ExtResource( 10 )
 
-[node name="TileMap2" type="TileMap" parent="HiddenAreaTileMap3"]
+[node name="TileMap2" type="TileMap" parent="HiddenAreas/HiddenAreaTileMap3"]
 z_index = 2
 tile_set = SubResource( 31 )
 cell_size = Vector2( 16, 16 )
@@ -1061,15 +1114,15 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 589814, 0, 3, 589815, 0, 65537, 589816, 0, 1, 589817, 0, 1, 655350, 0, 65537, 655351, 0, 65537, 655352, 0, 65537, 655353, 0, 65537, 655354, 0, 65537, 655355, 0, 65537, 720886, 0, 65537, 720887, 0, 65537, 720888, 0, 65537, 720889, 0, 65537, 720890, 0, 65537, 720891, 0, 65537, 786422, 0, 65537, 786423, 0, 65537, 786424, 0, 65537, 786425, 0, 65537, 786426, 0, 65537, 786427, 0, 65537, 851958, 0, 65537, 851959, 0, 65537, 851960, 0, 65537, 851961, 0, 65537, 851962, 0, 65537, 851963, 0, 65537, 917494, 0, 65537, 917495, 0, 65537, 917496, 0, 65537, 917497, 0, 65537, 917498, 0, 65537, 917499, 0, 65537, 983030, 0, 65537, 983031, 0, 65537, 983032, 0, 65537, 983033, 0, 65537, 983034, 0, 65537, 983035, 0, 65537, 1048566, 0, 65537, 1048567, 0, 65537, 1048568, 0, 65537, 1048569, 0, 65537, 1048570, 0, 65537, 1048571, 0, 65537, 1114102, 0, 65537, 1114103, 0, 65537, 1114104, 0, 65537, 1114105, 0, 65537, 1114106, 0, 65537, 1114107, 0, 65537, 1179638, 0, 65537, 1179639, 0, 65537, 1179640, 0, 65537, 1179641, 0, 65537, 1179642, 0, 65537, 1179643, 0, 65537, 1245174, 0, 65537, 1245175, 0, 65537, 1245176, 0, 65537, 1245177, 0, 65537, 1245178, 0, 65537, 1245179, 0, 65537, 1310710, 0, 65537, 1310711, 0, 65537, 1310712, 0, 65537, 1310713, 0, 65537, 1310714, 0, 65537, 1310715, 0, 65537, 1376246, 0, 65537, 1376247, 0, 65537, 1376248, 0, 65537, 1376249, 0, 65537, 1376250, 0, 65537, 1376251, 0, 65537, 1441782, 0, 65537, 1441783, 0, 65537, 1441784, 0, 65537, 1441785, 0, 65537, 1441786, 0, 65539, 1441787, 0, 131073, 1507318, 0, 65537, 1507319, 0, 65537, 1507320, 0, 65537, 1507321, 0, 65537, 1572854, 0, 65537, 1572855, 0, 65537, 1572856, 0, 65537, 1572857, 0, 65537, 1638390, 0, 65537, 1638391, 0, 65537, 1638392, 0, 65537, 1638393, 0, 65537 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreaTileMap3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenAreas/HiddenAreaTileMap3"]
 position = Vector2( -148, 264 )
 shape = SubResource( 52 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="HiddenAreaTileMap3"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HiddenAreas/HiddenAreaTileMap3"]
 position = Vector2( -104, 244 )
 shape = SubResource( 53 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreaTileMap3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HiddenAreas/HiddenAreaTileMap3"]
 root_node = NodePath("../TileMap2")
 autoplay = "hidden"
 anims/RESET = SubResource( 47 )
@@ -1077,4 +1130,22 @@ anims/hidden = SubResource( 48 )
 anims/revealed = SubResource( 49 )
 anims/revealing = SubResource( 50 )
 
+[node name="Spring" type="Area2D" parent="."]
+position = Vector2( 135, 440 )
+script = ExtResource( 11 )
+
+[node name="Sprite" type="Sprite" parent="Spring"]
+texture = ExtResource( 12 )
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spring"]
+position = Vector2( 0, 5 )
+shape = SubResource( 54 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Spring"]
+anims/RESET = SubResource( 55 )
+anims/active = SubResource( 56 )
+anims/idle = SubResource( 57 )
+
 [connection signal="Is_Active" from="Lever" to="Door" method="_on_Lever_Is_Active"]
+[connection signal="body_entered" from="Spring" to="Player" method="_on_Spring_body_entered"]
